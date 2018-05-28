@@ -1,6 +1,12 @@
 """from https://github.com/mlotstein/StarFleet-Mine-Clearing-Exercise"""
 import os.path
 import re
+import argparse
+
+PARSER = argparse.ArgumentParser()
+PARSER.add_argument("field_file")
+PARSER.add_argument("script_file")
+ARGS = PARSER.parse_args()
 
 
 def dist_to_char(distance):
@@ -351,23 +357,8 @@ class Mission(object):  # pylint: disable=too-many-instance-attributes
                 self.activeMinesX) > 0 and self.has_past_mine() is False
         self.print_score()
 
+# Load and Go
 
-MISSION_1 = Mission('test1.field', 'test1.script')
 
-# MISSION_1.run()
-
-MISSION_2 = Mission('test2.field', 'test2.script')
-
-# MISSION_2.run()
-
-MISSION_3 = Mission('test3.field', 'test3.script')
-
-#MISSION_3.run()
-
-MISSION_4 = Mission('test4.field', 'test4.script')
-
-MISSION_4.run()
-
-MISSION_5 = Mission('test5.field', 'test5.script')
-
-#MISSION_5.run()
+MISSION = Mission(ARGS.field_file, ARGS.script_file)
+MISSION.run()
