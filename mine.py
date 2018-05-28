@@ -112,24 +112,15 @@ class Mission:
         # Determine the minimum size of the grid s.t. the ship is in the center
         sizeX = 0
         sizeY = 0
-        print 'print_mine_field self.activeMinesX %s' % self.activeMinesX
-        print 'print_mine_field self.activeMinesY %s' % self.activeMinesY
         for m in xrange(len(self.activeMinesX)):
             if abs(self.activeMinesX[m]) > sizeX:
                 sizeX = int(abs(self.activeMinesX[m] - self.shipX))
             if abs(self.activeMinesY[m]) > sizeY:
                 sizeY = int(abs(self.activeMinesY[m] - self.shipY))
-        print 'shipX %s' % self.shipX
-        print 'shipY %s' % self.shipY
-        print 'sizeX %s' % sizeX
-        print 'sizeY %s' % sizeY
         minefield = [['.' for _ in xrange(2*sizeX + 1)] for _ in xrange(2*sizeY + 1)]
-        print 'minefield %s' % minefield
         for m in xrange(len(self.activeMinesX)):
             row = self.transform_y(self.activeMinesY[m], sizeY)
             col = self.transform_x(self.activeMinesX[m], sizeX)
-            print 'row %s' % row
-            print 'col %s' % col
             minefield[row][col] = self.dist_to_char(self.shipZ - int(self.activeMinesZ[m]))
         for r in xrange(len(minefield)):
             print(''.join(minefield[r]))
@@ -163,7 +154,7 @@ class Mission:
                     quit()
 
     def print_command(self):
-        print self.steps[self.stepNum - 1]
+        print ' '.join(self.steps[self.stepNum - 1])
 
     """
      * Updates commands[] array to reflect contents of script file.
@@ -206,12 +197,7 @@ class Mission:
     """
     def destroy_mine(self, mine_number):
         x = self.activeMinesX[mine_number]
-        print 'mine number %s' % mine_number
-        print 'destroy mine'
-        print 'x %s' % x
-        print 'self.activeMinesX %s' % self.activeMinesX
         del(self.activeMinesX[mine_number])
-        print 'self.activeMinesX %s' % self.activeMinesX
         y = self.activeMinesY[mine_number]
         del(self.activeMinesY[mine_number])
         z = self.activeMinesZ[mine_number]
@@ -229,11 +215,7 @@ class Mission:
 
     def execute_command(self):
         # First, fire photons and destroy mines as appropriate
-        print 'self.steps in execute %s' % self.steps
         for c in self.steps[self.stepNum - 1]:
-            print 'c %s' % c
-            print 'Command %s' % Command
-            print 'Command.SOUTH %s' % self.Command.SOUTH
             if c == self.Command.ALPHA:
                 mines_south_east = findMinesOnXYLine(self.shipX + 1, self.shipY + 1)
                 for m in mines_south_east:
@@ -244,7 +226,7 @@ class Mission:
                 mines_south_west = findMinesOnXYLine(self.shipX - 1, self.shipY + 1)
                 for m in mines_south_west:
                     self.destroy_mine(m)
-                mines_north_west = findMinesOnXYLine(self.shipX - 1, self.shipY - 1);
+                mines_north_west = findMinesOnXYLine(self.shipX - 1, self.shipY - 1)
                 for m in mines_north_west:
                     self.destroy_mine(m)
                 self.shotsFired += 1
@@ -258,7 +240,7 @@ class Mission:
                 mines_east = find_mines_on_xy_line(self.shipX + 1, self.shipY)
                 for m in mines_east:
                     self.destroy_mine(m)
-                mines_west = find_mines_on_xy_line(shipX - 1, shipY);
+                mines_west = find_mines_on_xy_line(shipX - 1, shipY)
                 for m in mines_west:
                     self.destroy_mine(m)
                 self.shotsFired += 1
@@ -274,7 +256,6 @@ class Mission:
                     self.destroy_mine(m)
                 self.shotsFired += 1
             elif c == self.Command.DELTA:
-                print 'in delta command'
                 mines_north = self.find_mines_on_xy_line(self.shipX, self.shipY - 1)
                 for m in mines_north:
                     self.destroy_mine(m)
@@ -289,14 +270,12 @@ class Mission:
                 self.shipY -= 1
                 self.moveCMDs += 1
             elif c == self.Command.SOUTH:
-                print 'in south command'
                 self.shipY += 1
                 self.moveCMDs += 1
             elif c == self.Command.EAST:
                 self.shipX += 1
                 self.moveCMDs += 1
             elif c == self.Command.WEST:
-                print 'in west command'
                 self.shipX -= 1
                 self.moveCMDs += 1
         # Always move down
@@ -367,4 +346,17 @@ mission = Mission('test1.field', 'test1.script')
 
 mission2 = Mission('test2.field', 'test2.script')
 
-mission2.run()
+#mission2.run()
+
+mission3 = Mission('test3.field', 'test3.script')
+
+#mission3.run()
+
+
+mission4 = Mission('test4.field', 'test4.script')
+
+#mission4.run()
+
+mission5 = Mission('test5.field', 'test5.script')
+
+mission5.run()
